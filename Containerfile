@@ -1,8 +1,11 @@
-FROM ubuntu:14.04
+FROM ubuntu:14.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
+RUN sed -i -e 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list \
+    && sed -i -e 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+
+RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::ForceIPv4=true update && apt-get install -y \
     git-core \
     gnupg \
     flex \
